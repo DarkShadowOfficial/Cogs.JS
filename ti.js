@@ -13,8 +13,8 @@ function eval(str) {
   
   This would return 3 because 2 to the power of 3 is 8.
   */
-function log(base, result) {
-  return Math.log(result) / Math.log(base);
+function log(number, base) {
+  return Math.log(number) / Math.log(base);
 }
 /* 
   Get angle in degrees through the sine with arcsin function. Example:
@@ -36,7 +36,7 @@ function arcsin(sine) {
   g.createPoint(x, y);
   g.createPoint(x1, y1);
   g.line(x, y, x1, y1);
-  // g.line connects the first point and the second with a line.
+  * g.line connects the first point and the second with a line.
   
   */
 // Please note that createPoint() and line() work under the assumption that x and y are relative to the origin aka the center of the screen and intersection of the axis.
