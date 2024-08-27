@@ -59,3 +59,18 @@ data.forEach((point) => { // Iterate through data array
 });
 graph.CIdrawIntervals(xdata, ydata, scale) // Built in function to ti.js which uses Statistics Cog (Stat_Cog) to calculate the 68% Confidence (red), 95% Confidence (green, and also the most useful), and 99% Confidence (Blue) intervals
 ```
+
+Update 8/27 for ti.js:
+You are now able to create Bar Graphs/Histograms. Here's how:
+```
+let barGraph = new BarGraph(500, 500); // Initialize bar graph with width and height in pixels
+barGraph.loadGraph(); // Display graph
+barGraph.SetBars([
+    {title: "A", value: 5}, // This is the required format for each bar. Title of the bar will be displayed underneath the bar, and labels will be to the right side.
+    {title: "B", value: 10},
+    {title: "C", value: 15},
+    {title: "D", value: 12},
+    {title: "E", value: 9},
+]);
+barGraph.GraphBars(); // Display bars
+```
