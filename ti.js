@@ -124,7 +124,7 @@ class BarGraph extends Graph {
       let rgb = `rgb(${Math.random()*200}, ${Math.random() * 200}, ${Math.random() * 200})`;
       this.colors.push(rgb);
     }
-    this.setDimensions(w+50, h+35);
+    this.setDimensions(innerWidth, h + 35);
   }
   loadGraph() {
     document.body.appendChild(this._canvas);
@@ -141,7 +141,7 @@ class BarGraph extends Graph {
     })
     let gtol = [];
     Main_Cog.prototype.greatestToLeast(tempBars, gtol);
-    let barScale = this.height / (gtol[0] + gtol[gtol.length - 1]);
+    let barScale = this.height / (2*(gtol[0] + gtol[gtol.length - 1]));
     for (let i = 0; i < this.bars.length; i++) {
       let bar = this.bars[i].title;
       let value = this.bars[i].value;
@@ -157,13 +157,7 @@ class BarGraph extends Graph {
       this._ctx.textAlign = "center"; // Center the text
       this._ctx.fillText(bar, x + width / 2, this.height + 30, width); // Position the text
       this._ctx.strokeStyle = this.colors[i];
-      // this.line(this.width-width*0.25, this.height-barScale*value, this.width+width*0.25, this.height-barScale*value);
-      this._ctx.beginPath();
-      this._ctx.moveTo(this.width-width*0.125, this.height-barScale*value);
-      this._ctx.lineTo(this.width+width*0.125, this.height-barScale*value);
-      this._ctx.stroke();
-      this._ctx.closePath();
-      this._ctx.fillText(value, this.width+width*0.125+15, this.height-barScale*value+6, 50 - width*0.125)
+      this._ctx.fillText(value, this.width+width*0.125+i*50, this.height-barScale*value+6, 50 - width*0.125)
     }
   }
 }
