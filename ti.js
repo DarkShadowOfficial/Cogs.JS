@@ -110,7 +110,7 @@ class Graph {
   }
 }
 class BarGraph extends Graph {
-  constructor(w, h) {
+  constructor(w, h, title = "") {
     super();
     this._canvas = document.createElement("canvas");
     this._ctx = this._canvas.getContext("2d");
@@ -124,9 +124,13 @@ class BarGraph extends Graph {
       let rgb = `rgb(${Math.random()*200}, ${Math.random() * 200}, ${Math.random() * 200})`;
       this.colors.push(rgb);
     }
+    this.title = title;
     this.setDimensions(innerWidth, h + 35);
   }
   loadGraph() {
+    let title = document.createElement('h1');
+    title.innerHTML = this.title;
+    document.body.appendChild(title);
     document.body.appendChild(this._canvas);
     this._ctx.strokeRect(0, 0, this.width, this.height);
   }
