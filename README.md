@@ -74,3 +74,34 @@ barGraph.SetBars([
 ]);
 barGraph.GraphBars(); // Display bars
 ```
+
+Update 8/27 for ti.js:
+Using BarGraph.prototype.ErrorBars(errors), you can add error bars to each bar on your bar graph. Here's how:
+```
+let barGraph = new BarGraph(500, 500); // Initialize bar graph
+barGraph.loadGraph(); // Display bar graph without bars
+let data = []; // Multi dimensional array for all your datasets
+let stats = []; // Array for each Statistic Cog, for each dataset
+// Note: Normally, you'd have real data, but since this is just documentation, this is going to be randomized to show how it works.
+for (let i = 0; i < 5; i++) { // 5 datasets, or 5 bars
+    let dataset = [];
+    for (let i = 0; i < 100; i++) { // Each dataset has 100 data points
+        dataset.push(Math.random()*100); // Randomize
+    }
+    data.push(dataset); // Add dataset to the main data array
+    stats.push(new Stat_Cog(dataset)); // Add a Statistic Cog for each dataset
+}
+barGraph.SetBars([ // Set your bars, with names and values. Round to make sure the full text doesn't get scrunched up and impossible to read.
+  { title: "A", value: Math.round(stats[0].MEAN()*100)/100 },
+  { title: "B", value: Math.round(stats[1].MEAN()*100)/100 },
+  { title: "C", value: Math.round(stats[2].MEAN()*100)/100 },
+  { title: "D", value: Math.round(stats[3].MEAN()*100)/100 },
+  { title: "E", value: Math.round(stats[4].MEAN()*100)/100 }
+]);
+barGraph.GraphBars(); // Display bars
+let errors = []; // Empty array for each bars' 95% confidence interval
+stats.forEach(stat => {
+    errors.push(stat.CI95()) // Error intervals are given in a {min: number, max: number} format, but don't worry; ErrorBars method takes care of it.
+})
+barGraph.ErrorBars(errors); // BarGraph.ErrorBars takes in one parameter, an array of objects with format {min: number, max: number}.
+```
