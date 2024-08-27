@@ -109,3 +109,61 @@ class Graph {
     );
   }
 }
+class BarGraph extends Graph {
+  constructor(w, h) {
+    super();
+    this._canvas = document.createElement("canvas");
+    this._ctx = this._canvas.getContext("2d");
+    this._ctx.fillStyle = "black";
+    this._ctx.strokeStyle = "black";
+    this.width = w;
+    this.height = h;
+    this.bars = [];
+    this.colors = [];
+    for (let i = 0; i < 50; i++) {
+      let rgb = `rgb(${Math.random()*200}, ${Math.random() * 200}, ${Math.random() * 200})`;
+      this.colors.push(rgb);
+    }
+    this.setDimensions(w+50, h+35);
+  }
+  loadGraph() {
+    document.body.appendChild(this._canvas);
+    this._ctx.strokeRect(0, 0, this.width, this.height);
+  }
+  SetBars(bars) {
+    this.bars = bars;
+  }
+  GraphBars() {
+    let width = this.width / (2 * this.bars.length);
+    let tempBars = [];
+    this.bars.forEach(bar => {
+      tempBars.push(bar.value);
+    })
+    let gtol = [];
+    Main_Cog.prototype.greatestToLeast(tempBars, gtol);
+    let barScale = this.height / (gtol[0] + gtol[gtol.length - 1]);
+    for (let i = 0; i < this.bars.length; i++) {
+      let bar = this.bars[i].title;
+      let value = this.bars[i].value;
+      let x = 2 * width * i + width / 2;
+      this._ctx.fillStyle = this.colors[i];
+      this._ctx.fillRect(
+        x,
+        this.height - barScale * value,
+        width,
+        barScale * value
+      );
+      this._ctx.font = "24px Arial bold"; // Set font size and style
+      this._ctx.textAlign = "center"; // Center the text
+      this._ctx.fillText(bar, x + width / 2, this.height + 30, width); // Position the text
+      this._ctx.strokeStyle = this.colors[i];
+      // this.line(this.width-width*0.25, this.height-barScale*value, this.width+width*0.25, this.height-barScale*value);
+      this._ctx.beginPath();
+      this._ctx.moveTo(this.width-width*0.125, this.height-barScale*value);
+      this._ctx.lineTo(this.width+width*0.125, this.height-barScale*value);
+      this._ctx.stroke();
+      this._ctx.closePath();
+      this._ctx.fillText(value, this.width+width*0.125+15, this.height-barScale*value+6, 50 - width*0.125)
+    }
+  }
+}
