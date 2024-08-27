@@ -3,7 +3,7 @@ function addScript(src) {
   script.src = src;
   document.head.appendChild(script);
 }
-addScript("https://github.com/DarkShadowOfficial/Cogs.JS/raw/main/Scripts/Algorithms.js");
-addScript("https://github.com/DarkShadowOfficial/Cogs.JS/raw/main/Scripts/Statistics.js");
-addScript("https://github.com/DarkShadowOfficial/Cogs.JS/raw/main/Scripts/Distribution.js");
-addScript("https://github.com/DarkShadowOfficial/Cogs.JS/raw/main/Scripts/Regression.js");
+addScript("https://raw.githubusercontent.com/DarkShadowOfficial/Cogs.JS/main/Scripts/Algorithms.js");
+addScript("https://raw.githubusercontent.com/DarkShadowOfficial/Cogs.JS/main/Scripts/Statistics.js");
+addScript("https://raw.githubusercontent.com/DarkShadowOfficial/Cogs.JS/main/Scripts/Distribution.js");
+addScript("https://raw.githubusercontent.com/DarkShadowOfficial/Cogs.JS/main/Scripts/Regression.js");
