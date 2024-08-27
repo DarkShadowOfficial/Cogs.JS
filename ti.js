@@ -157,7 +157,36 @@ class BarGraph extends Graph {
       this._ctx.textAlign = "center"; // Center the text
       this._ctx.fillText(bar, x + width / 2, this.height + 30, width); // Position the text
       this._ctx.strokeStyle = this.colors[i];
-      this._ctx.fillText(value, this.width+width*0.125+i*50, this.height-barScale*value+6, 50 - width*0.125)
+      this._ctx.fillText(value, this.width+width*0.125+i*50, this.height-barScale*value+6, 50-width*0.125)
+    }
+  }
+  ErrorBars(errors) {
+    let width = this.width / (2 * this.bars.length);
+    let tempBars = [];
+    this.bars.forEach(bar => {
+      tempBars.push(bar.value);
+    })
+    let gtol = [];
+    Main_Cog.prototype.greatestToLeast(tempBars, gtol);
+    let barScale = this.height / (2*(gtol[0] + gtol[gtol.length - 1]));
+    for (let i = 0; i < errors.length; i++) {
+      // console.log(errors[i])
+      let min = errors[i].min;
+      let max = errors[i].max;
+      this._ctx.strokeStyle = "black";
+      let x = 2 * width * i + width / 2;
+      this._ctx.beginPath();
+      this._ctx.moveTo(x + width/4, this.height - min*barScale);
+      this._ctx.lineTo(x + width*3/4, this.height - min*barScale);
+      this._ctx.stroke();
+      this._ctx.beginPath();
+      this._ctx.moveTo(x + width/2, this.height - min*barScale);
+      this._ctx.lineTo(x + width/2, this.height - max*barScale);
+      this._ctx.stroke();
+      this._ctx.beginPath();
+      this._ctx.moveTo(x + width/4, this.height - max*barScale);
+      this._ctx.lineTo(x + width*3/4, this.height - max*barScale);
+      this._ctx.stroke();
     }
   }
 }
