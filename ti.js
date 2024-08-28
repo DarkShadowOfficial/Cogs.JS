@@ -172,7 +172,7 @@ class BarGraph extends Graph {
       this._ctx.textAlign = "center"; // Center the text
       this._ctx.fillText(bar, x + width / 2, this.height + 30, width); // Position the text
       this._ctx.strokeStyle = this.colors[i];
-      this._ctx.fillText(value, this.width+width*0.125+i*50, this.height-barScale*value+6, 50-width*0.125)
+      this._ctx.fillText(value, x + width/2, this.height-barScale*value-5, width*3/2)
     }
   }
   ErrorBars(errors) {
