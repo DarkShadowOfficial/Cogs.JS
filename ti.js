@@ -127,7 +127,7 @@ class BarGraph extends Graph {
       this.colors.push(rgb);
     }
     this.title = title;
-    this.setDimensions(innerWidth, h + 35);
+    this.setDimensions(w, h + 35);
   }
   line(x0, y0, x1, y1) {
     this._ctx.beginPath();
