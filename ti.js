@@ -117,6 +117,8 @@ class BarGraph extends Graph {
     this._ctx.fillStyle = "black";
     this._ctx.strokeStyle = "black";
     this.width = w;
+    this.barWidth = 0;
+    this.barScale = 0;
     this.height = h;
     this.bars = [];
     this.colors = [];
@@ -127,6 +129,13 @@ class BarGraph extends Graph {
     this.title = title;
     this.setDimensions(innerWidth, h + 35);
   }
+  line(x0, y0, x1, y1) {
+    this._ctx.beginPath();
+    this._ctx.moveTo(x0, y0);
+    this._ctx.lineTo(x1, y1);
+    this._ctx.stroke();
+    this._ctx.closePath();
+  }
   loadGraph() {
     let title = document.createElement('h1');
     title.innerHTML = this.title;
@@ -136,16 +145,18 @@ class BarGraph extends Graph {
   }
   SetBars(bars) {
     this.bars = bars;
-  }
-  GraphBars() {
-    let width = this.width / (2 * this.bars.length);
+    this.barWidth = this.width / (2 * this.bars.length);
     let tempBars = [];
     this.bars.forEach(bar => {
       tempBars.push(bar.value);
     })
     let gtol = [];
     Main_Cog.prototype.greatestToLeast(tempBars, gtol);
-    let barScale = this.height / (2*(gtol[0] + gtol[gtol.length - 1]));
+    this.barScale = this.height / (2*(gtol[0] + gtol[gtol.length - 1]));
+  }
+  GraphBars() {
+    let width = this.barWidth;
+    let barScale = this.barScale;
     for (let i = 0; i < this.bars.length; i++) {
       let bar = this.bars[i].title;
       let value = this.bars[i].value;
