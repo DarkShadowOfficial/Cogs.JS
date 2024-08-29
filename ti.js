@@ -8,37 +8,37 @@ function eval(str) {
   return new Function(`return ${str}`)();
 }
 /* 
-  Get exponents by using log function. Example:
-  log(2, 8);
-  
-  This would return 3 because 2 to the power of 3 is 8.
-  */
+    Get exponents by using log function. Example:
+    log(2, 8);
+    
+    This would return 3 because 2 to the power of 3 is 8.
+    */
 function log(number, base) {
   return Math.log(number) / Math.log(base);
 }
 /* 
-  Get angle in degrees through the sine with arcsin function. Example:
-  arcsin(0.5);
-  
-  This would return 30 because the sine of a 30 degree angle is 0.5
-  Please note that Math.asin and arcsin are similar to each other, except that asin returns the angle in radians. arcsin returns the angle in degrees.
-  */
+    Get angle in degrees through the sine with arcsin function. Example:
+    arcsin(0.5);
+    
+    This would return 30 because the sine of a 30 degree angle is 0.5
+    Please note that Math.asin and arcsin are similar to each other, except that asin returns the angle in radians. arcsin returns the angle in degrees.
+    */
 function arcsin(sine) {
   let r = Math.asin(sine);
   let deg = (r / Math.PI) * 180;
   return deg;
 }
 /*
-  Graph and its functions:
-  let g = new Graph();
-  g.setDimensions(width of graph, height of graph);
-  g.loadGraph();
-  g.createPoint(x, y);
-  g.createPoint(x1, y1);
-  g.line(x, y, x1, y1);
-  * g.line connects the first point and the second with a line.
-  
-  */
+    Graph and its functions:
+    let g = new Graph();
+    g.setDimensions(width of graph, height of graph);
+    g.loadGraph();
+    g.createPoint(x, y);
+    g.createPoint(x1, y1);
+    g.line(x, y, x1, y1);
+    * g.line connects the first point and the second with a line.
+    
+    */
 // Please note that createPoint() and line() work under the assumption that x and y are relative to the origin aka the center of the screen and intersection of the axis.
 class Graph {
   constructor() {
@@ -123,7 +123,9 @@ class BarGraph extends Graph {
     this.bars = [];
     this.colors = [];
     for (let i = 0; i < 50; i++) {
-      let rgb = `rgb(${Math.random()*200}, ${Math.random() * 200}, ${Math.random() * 200})`;
+      let rgb = `rgb(${Math.random() * 200}, ${Math.random() * 200}, ${
+        Math.random() * 200
+      })`;
       this.colors.push(rgb);
     }
     this.title = title;
@@ -137,7 +139,7 @@ class BarGraph extends Graph {
     this._ctx.closePath();
   }
   loadGraph() {
-    let title = document.createElement('h1');
+    let title = document.createElement("h1");
     title.innerHTML = this.title;
     document.body.appendChild(title);
     document.body.appendChild(this._canvas);
@@ -147,12 +149,12 @@ class BarGraph extends Graph {
     this.bars = bars;
     this.barWidth = this.width / (2 * this.bars.length);
     let tempBars = [];
-    this.bars.forEach(bar => {
+    this.bars.forEach((bar) => {
       tempBars.push(bar.value);
-    })
+    });
     let gtol = [];
     Main_Cog.prototype.greatestToLeast(tempBars, gtol);
-    this.barScale = this.height / (2*(gtol[0] + gtol[gtol.length - 1]));
+    this.barScale = this.height / (2 * (gtol[0] + gtol[gtol.length - 1]));
   }
   GraphBars() {
     let width = this.barWidth;
@@ -172,18 +174,23 @@ class BarGraph extends Graph {
       this._ctx.textAlign = "center"; // Center the text
       this._ctx.fillText(bar, x + width / 2, this.height + 30, width); // Position the text
       this._ctx.strokeStyle = this.colors[i];
-      this._ctx.fillText(value, x + width/2, this.height-barScale*value-5, width*3/2)
+      this._ctx.fillText(
+        value,
+        x + width / 2,
+        this.height - barScale * value - 5,
+        (width * 3) / 2
+      );
     }
   }
   ErrorBars(errors) {
     let width = this.width / (2 * this.bars.length);
     let tempBars = [];
-    this.bars.forEach(bar => {
+    this.bars.forEach((bar) => {
       tempBars.push(bar.value);
-    })
+    });
     let gtol = [];
     Main_Cog.prototype.greatestToLeast(tempBars, gtol);
-    let barScale = this.height / (2*(gtol[0] + gtol[gtol.length - 1]));
+    let barScale = this.height / (2 * (gtol[0] + gtol[gtol.length - 1]));
     for (let i = 0; i < errors.length; i++) {
       // console.log(errors[i])
       let min = errors[i].min;
@@ -191,17 +198,68 @@ class BarGraph extends Graph {
       this._ctx.strokeStyle = "black";
       let x = 2 * width * i + width / 2;
       this._ctx.beginPath();
-      this._ctx.moveTo(x + width/4, this.height - min*barScale);
-      this._ctx.lineTo(x + width*3/4, this.height - min*barScale);
+      this._ctx.moveTo(x + width / 4, this.height - min * barScale);
+      this._ctx.lineTo(x + (width * 3) / 4, this.height - min * barScale);
       this._ctx.stroke();
       this._ctx.beginPath();
-      this._ctx.moveTo(x + width/2, this.height - min*barScale);
-      this._ctx.lineTo(x + width/2, this.height - max*barScale);
+      this._ctx.moveTo(x + width / 2, this.height - min * barScale);
+      this._ctx.lineTo(x + width / 2, this.height - max * barScale);
       this._ctx.stroke();
       this._ctx.beginPath();
-      this._ctx.moveTo(x + width/4, this.height - max*barScale);
-      this._ctx.lineTo(x + width*3/4, this.height - max*barScale);
+      this._ctx.moveTo(x + width / 4, this.height - max * barScale);
+      this._ctx.lineTo(x + (width * 3) / 4, this.height - max * barScale);
       this._ctx.stroke();
+    }
+  }
+}
+class MultiBars extends BarGraph {
+  constructor(w, h, title) {
+    super(w, h, title);
+    this.barNums = 0;
+  }
+  SetBars(bars, barNums = 1) {
+    this.bars = bars;
+    this.barNums = barNums;
+    this.barWidth = this.width / (2 * barNums * this.bars.length);
+    let tempBars = [];
+    this.bars.forEach((bar) => {
+      let tempGtol = []
+      let tempBars1 = [...bar.values];
+      Main_Cog.prototype.greatestToLeast(tempBars1, tempGtol);
+      tempBars.push(tempGtol[0]);
+    });
+    let gtol = [];
+    Main_Cog.prototype.greatestToLeast(tempBars, gtol);
+    this.barScale = this.height / (2 * (gtol[0] + gtol[gtol.length - 1]));
+  }
+  GraphBars() {
+    let width = this.barWidth;
+    let barScale = this.barScale;
+    for (let i = 0; i < this.bars.length; i++) {
+      let bar = this.bars[i].title;
+      // console.log(JSON.stringify(this.bars[i]))
+      for (let j = 0; j < this.bars[i].values.length; j++) {
+        let value = this.bars[i].values[j];
+        let x = 2 * this.barNums * width * i + (j + 1)*width - width/2;
+        this._ctx.fillStyle = this.colors[j];
+        this._ctx.fillRect(
+          x,
+          this.height - barScale * value,
+          width,
+          barScale * value
+        );
+        this._ctx.font = "24px Arial bold"; // Set font size and style
+        this._ctx.textAlign = "center"; // Center the text
+        this._ctx.fillStyle = this.colors[j];
+        this._ctx.fillText(
+          value,
+          x + width / 2,
+          this.height - barScale * value - 5,
+          (width * 3) / 2
+        );
+      }
+      this._ctx.fillStyle = this.colors[i]
+      this._ctx.fillText(bar, 2*width*i*this.barNums + width*this.barNums/2 + width*3/2, this.height + 30, width*this.barNums); // Position the text
     }
   }
 }
