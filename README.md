@@ -105,3 +105,16 @@ stats.forEach(stat => {
 })
 barGraph.ErrorBars(errors); // BarGraph.ErrorBars takes in one parameter, an array of objects with format {min: number, max: number}.
 ```
+
+8/29 Update: MultiBars documentation
+
+MultiBars was added to ti.js, and it allows you to display multiple bars per trial on your bar graph.
+
+```
+let barGraph = new MultiBars(500, 500);
+barGraph.loadGraph();
+barGraph.setBars([
+  {title: "Trial 1", values: [your trial 1 values here]} // Rather than one value for the bar, multiple values are to be provided in a list
+  // ... other data
+], n) // n is the number of bars per trial
+```
