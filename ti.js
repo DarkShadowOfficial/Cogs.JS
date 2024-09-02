@@ -52,6 +52,7 @@ class Graph {
     this._canvas.height = h;
   }
   loadGraph() {
+    this._ctx.strokeStyle = 'black';
     document.body.appendChild(this._canvas);
     this._ctx.beginPath();
     this._ctx.moveTo(this._canvas.width / 2, 0);
@@ -64,11 +65,11 @@ class Graph {
     this._ctx.stroke();
     this._ctx.closePath();
   }
-  createPoint(x, y) {
+  createPoint(x, y, radius = 2.5) {
     let x1 = this._canvas.width / 2 + x;
     let y1 = this._canvas.height / 2 - y;
     this._ctx.beginPath();
-    this._ctx.arc(x1, y1, 2.5, 0, Math.PI * 2);
+    this._ctx.arc(x1, y1, radius, 0, Math.PI * 2);
     this._ctx.fill();
     this._ctx.closePath();
   }
@@ -170,7 +171,7 @@ class BarGraph extends Graph {
         width,
         barScale * value
       );
-      this._ctx.font = "24px Arial bold"; // Set font size and style
+      this._ctx.font = width + "px Arial bold"; // Set font size and style
       this._ctx.textAlign = "center"; // Center the text
       this._ctx.fillText(bar, x + width / 2, this.height + 30, width); // Position the text
       this._ctx.strokeStyle = this.colors[i];
