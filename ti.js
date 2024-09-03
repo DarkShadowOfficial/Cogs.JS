@@ -65,18 +65,20 @@ class Graph {
     this._ctx.stroke();
     this._ctx.closePath();
   }
-  createPoint(x, y, radius = 2.5) {
+  createPoint(x, y, radius = 2.5, color = "black") {
     let x1 = this._canvas.width / 2 + x;
     let y1 = this._canvas.height / 2 - y;
     this._ctx.beginPath();
     this._ctx.arc(x1, y1, radius, 0, Math.PI * 2);
+    this._ctx.fillStyle = color;
     this._ctx.fill();
     this._ctx.closePath();
   }
-  line(x0, y0, x1, y1) {
+  line(x0, y0, x1, y1, color = 'black') {
     this._ctx.beginPath();
     this._ctx.moveTo(x0 + this._canvas.width / 2, this._canvas.height / 2 - y0);
     this._ctx.lineTo(x1 + this._canvas.width / 2, this._canvas.height / 2 - y1);
+    this._ctx.strokeStyle = color;
     this._ctx.stroke();
     this._ctx.closePath();
   }
