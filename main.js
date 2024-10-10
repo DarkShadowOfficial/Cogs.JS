@@ -99,6 +99,31 @@ class Dist_Cog extends Stat_Cog {
       this.factorial(n)
     );
   }
+  SIGMOID(x) {
+    return 1 / (1 + Math.pow(Math.E, -x));
+  }
+  relevants(A, INTERVAL) {
+    let dat = [];
+    for (let i = 0; i < A.length; i++) {
+      if (A[i] >= INTERVAL.min && A[i] <= INTERVAL.max) {
+        dat.push(A[i]);
+      }
+    }
+    return dat;
+  }
+  group(A) {
+    let split = Math.floor(A.length * 0.75);
+    let train = [...A.slice(0, split)];
+    let test = [...A.slice(split, A.length)];
+    return { train_group: train, test_group: test };
+  }
+  #predict(groups) {
+    let s = new Stat_Cog(groups.train_group);
+    let a = s.MEAN();
+    let s2 = new Stat_Cog(groups.test_group);
+    let p = s2.MEAN();
+    return { predicted_value: a, confidence: 1 - Math.abs((a - p) / a) };
+  }
   PredictNextValue() {
     let c = this.dat[0];
     for (
@@ -112,48 +137,8 @@ class Dist_Cog extends Stat_Cog {
     }
     return c;
   }
-  SIGMOID(x) {
-    return 1 / (1 + Math.pow(Math.E, -x));
-  }
-}
-class ReCog extends Stat_Cog {
-  constructor(data) {
-    super();
-    this.dat = data;
-    this.layers = [];
-  }
-  AvgChange(list) {
-    let sum = 0;
-    for (let i = 1; i < list.length; i++) {
-      sum += list[i] - list[i - 1];
-    }
-    sum /= list.length - 1;
-    return sum;
-  }
-  AllChanges() {
-    let list = [];
-    for (let i = 1; i < this.dat.length; i++) {
-      list.push(this.dat[i] - this.dat[i - 1]);
-    }
-    return list;
-  }
-  DesignAlgorithm() {
-    this.layers = [];
-    let constancy = this.AvgChange(this.dat);
-    this.layers.push(this.dat);
-    let currentLayer = [...this.dat];
-    while (constancy != 0) {
-      this.layers.push(this.AllChanges(currentLayer));
-      currentLayer = this.AllChanges(currentLayer);
-      constancy = this.AvgChange(currentLayer);
-    }
-  }
-  PredictNextValue() {
-    this.DesignAlgorithm();
-    let x = 0;
-    for (let i = this.layers.length - 1; i > -1; i--) {
-      x += this.layers[i][this.layers[i].length - 1];
-    }
-    return x;
+  predictNextValue() {
+    let s = new Stat_Cog(this.dat);
+    return this.#predict(this.group(this.relevants(this.dat, s.CI95())));
   }
 }
